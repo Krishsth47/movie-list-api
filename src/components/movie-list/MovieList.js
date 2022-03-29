@@ -2,7 +2,7 @@ import React from "react";
 import { Button, ButtonGroup, Col, Row } from "react-bootstrap";
 import { CustomCard } from "../card/CustomCard";
 
-export const MovieList = () => {
+export const MovieList = ({ movieList }) => {
   return (
     <Row>
       <Col>
@@ -18,10 +18,9 @@ export const MovieList = () => {
           </ButtonGroup>
         </div>
         <div className="d-flex justify-content-between flex-wrap">
-          <CustomCard />
-          <CustomCard />
-          <CustomCard />
-          <CustomCard />
+          {movieList.map((movie, i) => (
+            <CustomCard movie={movie} />
+          ))}
         </div>
       </Col>
     </Row>

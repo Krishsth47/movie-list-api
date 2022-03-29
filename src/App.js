@@ -1,20 +1,60 @@
-import { Container } from "react-bootstrap";
+import { useState } from "react";
+
+import { Alert, Container } from "react-bootstrap";
 import "./App.css";
+import { CustomCard } from "./components/card/CustomCard";
 import { SearchForm } from "./components/form/SearchForm";
 import { MovieList } from "./components/movie-list/MovieList";
 import { Title } from "./components/title/Title";
+import { fetchMovie } from "./helper/axiosHelper";
 
 export const App = () => {
+  const [movieList, setMovieList] = useState([]);
+  const [movie, setMovie] = useState({});
+
+  const getMovie = async (search) => {
+    const movie = await fetchMovie(search);
+    console.log(movie);
+    setMovie(movie.data);
+  };
+
+  const handleOnAddToList = (cat, movie) => {
+    //cat-category
+    const obj = { ...movie, cat };
+
+    //adding first time
+    !movieList.length && setMovieList([obj]);
+    // movieList.length === 0 && setMovieList([obj]); //same way to write as above line
+    //adding after first time
+    const isExist = movieList.find((item) => item.imdbID === movie.imdbID);
+
+    if (!isExist) {
+      setMovieList([...movieList, obj]);
+      setMovie({});
+    } else {
+      alert("movie already exists");
+    }
+  };
+
+  // console.log(obj);
+
   return (
     <div className="wrapper">
       <Container>
         <Title />
-        <SearchForm />
+        <SearchForm handleOnAddToList={handleOnAddToList} getMovie={getMovie} />
+        <div className="d-flex justify-content-center mt-3">
+          {movie.Response === "True" && (
+            <CustomCard movie={movie} fun={handleOnAddToList} />
+          )}
+          {movie.Response === "False" && (
+            <Alert variant="danger">{movie.Error}</Alert>
+          )}
+        </div>
         <hr />
-        <MovieList />
+        <MovieList movieList={movieList} />
       </Container>
     </div>
   );
 };
-
 export default App;
