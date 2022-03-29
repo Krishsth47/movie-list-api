@@ -9,6 +9,7 @@ import { Title } from "./components/title/Title";
 import { fetchMovie } from "./helper/axiosHelper";
 
 export const App = () => {
+  const [movieMainList, setMovieMainList] = useState([]);
   const [movieList, setMovieList] = useState([]);
   const [movie, setMovie] = useState({});
 
@@ -30,6 +31,7 @@ export const App = () => {
 
     if (!isExist) {
       setMovieList([...movieList, obj]);
+      setMovieMainList([...setMovieList, obj]);
       setMovie({});
     } else {
       alert("movie already exists");
@@ -38,8 +40,23 @@ export const App = () => {
   const handleOnDelete = (imdbID) => {
     const filteredList = movieList.filter((itm) => itm.imdbID !== imdbID);
     setMovieList(filteredList);
+    setMovieMainList(filteredList);
   };
   // console.log(obj);
+
+  const handleOnSelect = (cat) => {
+    let filterArgs = [];
+    if (cat) {
+      filterArgs = movieMainList.filter((itm) => itm.cat === cat);
+    } else {
+      filterArgs = movieMainList;
+    }
+
+    setMovieList(filterArgs);
+    //happy selected
+    //lazy selected
+    //all selected
+  };
 
   return (
     <div className="wrapper">
@@ -55,7 +72,11 @@ export const App = () => {
           )}
         </div>
         <hr />
-        <MovieList movieList={movieList} handleOnDelete={handleOnDelete} />
+        <MovieList
+          movieList={movieList}
+          handleOnDelete={handleOnDelete}
+          handleOnSelect={handleOnSelect}
+        />
       </Container>
     </div>
   );

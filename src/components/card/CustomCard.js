@@ -10,7 +10,7 @@ export const CustomCard = ({ movie, fun, btnDelete }) => {
         <Card.Title>Rating: {movie?.imdbRating}</Card.Title>
 
         {btnDelete ? (
-          <div className="d-grip gap-2">
+          <div className="d-grid gap-2">
             <Button
               variant="danger"
               size="lg"
