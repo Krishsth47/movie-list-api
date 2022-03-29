@@ -14,6 +14,7 @@ export const SearchForm = ({ handleOnAddToList, getMovie }) => {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     getMovie(search);
+    setSearch("");
   };
   return (
     <>
@@ -24,6 +25,7 @@ export const SearchForm = ({ handleOnAddToList, getMovie }) => {
             <Form.Control
               placeholder="Search ..."
               onChange={handleOnChange}
+              value={search}
               required
             />
           </Col>

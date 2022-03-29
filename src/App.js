@@ -35,7 +35,10 @@ export const App = () => {
       alert("movie already exists");
     }
   };
-
+  const handleOnDelete = (imdbID) => {
+    const filteredList = movieList.filter((itm) => itm.imdbID !== imdbID);
+    setMovieList(filteredList);
+  };
   // console.log(obj);
 
   return (
@@ -52,9 +55,10 @@ export const App = () => {
           )}
         </div>
         <hr />
-        <MovieList movieList={movieList} />
+        <MovieList movieList={movieList} handleOnDelete={handleOnDelete} />
       </Container>
     </div>
   );
 };
+
 export default App;
